@@ -16,8 +16,8 @@ services:
       - 10909:10909
       - 10911:10911
     environment:
-      - NAMESRV_ADDR=namesrv:9876
-      - JAVA_OPTS=-XX:ParallelGCThreads=2
+      #- NAMESRV_ADDR=namesrv:9876
+      - JAVA_OPTS=-XX:ParallelGCThreads=4
     #volumes:
     #  - ./data/broker/logs:/root/logs
     #  - ./data/broker/store:/root/store
@@ -36,10 +36,8 @@ services:
       - namesrv
       - broker
   client:
-    image: wanliqun/rocketmq-client
+    image: wanliqun/rocketmq-client:1.0
     container_name: rmqclient
-    environment:
-      - NAMESRV_ADDR=namesrv:9876
     volumes:
       - /d/workspace/goroot/src/deepchain-worker:/go/src/deepchain-worker
     command: tail -f /dev/null
