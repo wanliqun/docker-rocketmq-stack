@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  console0:
+    image: styletang/rocketmq-console-ng
+    environment:
+      - NAMESRV_ADDR=rmqnamesrv0:9876
+      - JAVA_OPTS=-Drocketmq.namesrv.addr=rmqnamesrv0:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false
+    ports:
+      - "8082:8080"
+    networks:
+      default:
+        aliases:
+          - rmqconsole0
+    deploy:
+      placement:
+        constraints: [node.labels.node_id == 2]
+  
+networks:
+  default:
+    external:
+      name: swarm-overlay

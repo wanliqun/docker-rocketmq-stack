@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+  broker0:
+    image: rocketmqinc/rocketmq:4.4.0
+    environment:
+      - NAMESRV_ADDR=rmqnamesrv0:9876
+      - MAX_POSSIBLE_HEAP=200000000
+    #command: mqbroker -c /etc/rocketmq/broker.conf
+    command: sh mqbroker
+    volumes:
+      #- ./data/brokerconf/broker.conf:/etc/rocketmq/broker.conf
+      - broker0-logs:/root/logs
+      - broker0-store:/root/store
+    networks:
+      default:
+        aliases:
+          - rmqbroker0
+    deploy:
+      placement:
+        constraints: [node.labels.node_id == 2]
+  
+volumes:
+  broker0-logs: 
+    name: rmqbroker0-logs
+    driver: rexray/rbd
+    #driver_opts:
+    #  size: 1
+  broker0-store: 
+    name: rmqbroker0-store
+    driver: rexray/rbd
+    #driver_opts:
+    #  size: 1
+
+networks:
+  default:
+    external:
+      name: swarm-overlay

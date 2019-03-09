@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  namesrv0:
+    image: rocketmqinc/rocketmq:4.4.0
+    environment:
+      - MAX_POSSIBLE_HEAP=100000000
+    command: sh mqnamesrv
+    volumes:
+      - namesrv0-logs:/root/logs
+      - namesrv0-store:/root/store
+    networks:
+      default:
+        aliases:
+          - rmqnamesrv0
+    deploy:
+      placement:
+        constraints: [node.labels.node_id == 2]
+  
+volumes:
+  namesrv0-logs: 
+    name: rmqnamesrv0-logs
+    driver: rexray/rbd
+    #driver_opts:
+    #  size: 1
+  namesrv0-store: 
+    name: rmqnamesrv0-store
+    driver: rexray/rbd
+    #driver_opts:
+    #  size: 1
+
+networks:
+  default:
+    external:
+      name: swarm-overlay
