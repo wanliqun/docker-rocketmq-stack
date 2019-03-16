@@ -1,13 +1,14 @@
 version: '3.4'
 
 services:
-  broker0:
+  rmqbroker0:
     image: rocketmqinc/rocketmq:4.4.0
     environment:
       - NAMESRV_ADDR=rmqnamesrv0:9876
       - MAX_POSSIBLE_HEAP=200000000
     #command: mqbroker -c /etc/rocketmq/broker.conf
-    command: sh mqbroker
+    #command: sh mqbroker autoCreateTopicEnable=true
+    command: bash -c "echo brokerIP1=`hostname -i` >> ../conf/broker.conf && ./mqbroker -c ../conf/broker.conf"
     volumes:
       #- ./data/brokerconf/broker.conf:/etc/rocketmq/broker.conf
       - broker0-logs:/root/logs

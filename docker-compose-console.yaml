@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  console0:
+  rmqconsole0:
     image: styletang/rocketmq-console-ng
     environment:
       - NAMESRV_ADDR=rmqnamesrv0:9876

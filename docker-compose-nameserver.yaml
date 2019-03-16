@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  namesrv0:
+  rmqnamesrv0:
     image: rocketmqinc/rocketmq:4.4.0
     environment:
       - MAX_POSSIBLE_HEAP=100000000
